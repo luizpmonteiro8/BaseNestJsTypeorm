@@ -32,7 +32,7 @@ export class UsersService {
     const match = await this.checkPassword(signinDto.password, user);
 
     if (!match) {
-      throw new NotFoundException('Credenciais invalida.');
+      throw new NotFoundError('Credenciais inválida.');
     }
 
     const jwtToken = await this.authService.createAccessToken(user.id);
@@ -47,7 +47,7 @@ export class UsersService {
   private async findByEmail(email: string): Promise<User> {
     const user = await this.userRepository.findOne({ where: { email } });
     if (!user) {
-      throw new NotFoundException('Email não encontrado.');
+      throw new NotFoundError('Email não encontrado.');
     }
     return user;
   }
@@ -55,7 +55,7 @@ export class UsersService {
   private async checkPassword(password: string, user: User): Promise<boolean> {
     const match = await bcrypt.compare(password, user.password);
     if (!match) {
-      throw new NotFoundException('Senha incorreta.');
+      throw new NotFoundError('Senha incorreta.');
     }
     return match;
   }

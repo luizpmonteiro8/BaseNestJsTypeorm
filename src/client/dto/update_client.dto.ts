@@ -2,13 +2,17 @@ import { Type } from 'class-transformer';
 import {
   IsDefined,
   IsNotEmptyObject,
+  IsNumber,
   IsObject,
   IsString,
   ValidateNested,
 } from 'class-validator';
-import { CreateAddressDto } from './create-address.dto copy';
+import { UpdateAddressDto } from './update-address.dto';
 
-export class CreateClientDto {
+export class UpdateClientDto {
+  @IsNumber()
+  readonly id: number;
+
   @IsString()
   readonly name: string;
 
@@ -16,6 +20,6 @@ export class CreateClientDto {
   @IsNotEmptyObject()
   @IsObject()
   @ValidateNested()
-  @Type(() => CreateAddressDto)
-  readonly address: CreateAddressDto;
+  @Type(() => UpdateAddressDto)
+  readonly address: UpdateAddressDto;
 }

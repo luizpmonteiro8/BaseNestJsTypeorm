@@ -1,6 +1,6 @@
 import { IsString } from 'class-validator';
 
-export class AddressDto {
+export class CreateAddressDto {
   @IsString()
   readonly street: string;
 
