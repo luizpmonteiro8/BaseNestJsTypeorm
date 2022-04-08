@@ -2,8 +2,6 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { CreateClientDto } from 'src/client/dto/create-client.dto';
 import { Client } from 'src/client/entity/client.entity';
-import { Pagination } from 'src/paginate/pagination';
-import { PaginationOptionsInterface } from 'src/paginate/pagination.options.interface';
 
 import { Repository } from 'typeorm';
 
@@ -40,17 +38,23 @@ export class ClientService {
     this.clientRepository.save(client);
   }
 
-  async paginate(
-    options: PaginationOptionsInterface,
-  ): Promise<Pagination<Client>> {
-    const [results, total] = await this.clientRepository.findAndCount({
-      take: options.limit,
-      skip: options.page,
+  async paginate(limit: number, page: number) {
+    const [results, totalItems] = await this.clientRepository.findAndCount({
+      take: limit,
+      skip: page * limit,
     });
+    const totalPages = Math.ceil(totalItems / limit);
+    const currentPage = Number(page) + 1;
 
-    return new Pagination<Client>({
+    return {
       results,
-      total,
-    });
+      meta: {
+        totalItems,
+        itemsPerPage: limit,
+        totalPages,
+        currentPage,
+        lastPage: totalPages == currentPage ? true : false,
+      },
+    };
   }
 }

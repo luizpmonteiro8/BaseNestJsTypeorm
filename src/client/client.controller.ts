@@ -18,10 +18,10 @@ export class ClientController {
 
   @Get('pages?')
   async pagination(@Request() request) {
-    return await this.clientService.paginate({
-      limit: request.query.hasOwnProperty('limit') ? request.query.limit : 10,
-      page: request.query.hasOwnProperty('page') ? request.query.page : 0,
-    });
+    return await this.clientService.paginate(
+      request.query.hasOwnProperty('limit') ? request.query.limit : 10,
+      request.query.hasOwnProperty('page') ? request.query.page : 0,
+    );
   }
 
   @Get()
