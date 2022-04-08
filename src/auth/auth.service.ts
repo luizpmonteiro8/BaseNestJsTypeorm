@@ -22,8 +22,8 @@ export class AuthService {
     });
   }
 
-  public async validateUser(jwtPayload: JwtPayload): Promise<User[]> {
-    const user: User[] = await this.usersRepository.find({
+  public async validateUser(jwtPayload: JwtPayload): Promise<User> {
+    const user: User = await this.usersRepository.findOne({
       where: {
         id: jwtPayload.userId,
       },
