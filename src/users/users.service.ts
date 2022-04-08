@@ -6,6 +6,7 @@ import { SignInDto } from './dto/signin.dto';
 import { User } from './../users/entity/user.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
+import { NotFoundError } from './../common/errors/types/NotFoundError';
 
 @Injectable()
 export class UsersService {

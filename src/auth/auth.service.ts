@@ -28,9 +28,11 @@ export class AuthService {
         id: jwtPayload.userId,
       },
     });
+
     if (!user) {
       throw new UnauthorizedException('Usuário não encontrado.');
     }
+
     return user;
   }
 
@@ -38,7 +40,7 @@ export class AuthService {
     const authHeader = request.headers.authorization;
 
     if (!authHeader) {
-      throw new BadRequestException('Bad request.');
+      throw new UnauthorizedException('Usuário não tem permissão.');
     }
 
     const [, token] = authHeader.split(' ');
